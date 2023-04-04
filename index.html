@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+
+    <style>
+        body
+        {
+            background-color: #ccc;
+            text-shadow: 1px 1px 5px black;
+        }
+
+        span
+        {
+            color:  red;
+            font-weight: 900;
+            text-shadow: 1px 1px 5px black;
+        }
+    </style>
+</head>
+<body>
+
+    
+    <Center>
+        <h1>Chat Application</h1>
+        <input type="text" id="userName" placeholder="Enter Name Here"><br><br>
+        <input type="text" id="chatHere">
+        <button id="btn">Send</button>
+
+        <pre id="allChats"></pre>
+    </Center>
+
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+
+    <script>
+        const socket = io();
+        const chatHere = document.getElementById('chatHere');
+        const btn = document.getElementById('btn');
+        const allChats = document.getElementById('allChats');
+
+        const username = document.getElementById('userName');
+
+        btn.addEventListener('click',(e)=>
+        {
+            e.preventDefault();
+            console.log('clicked');
+            console.log("Value is "+ chatHere.value);
+
+            let usernameValue = '<span>' +username.value +'</span>';
+            socket.emit('chat', usernameValue+":"+chatHere.value);
+
+            socket.on('liveChat',(chats)=>
+            {
+                console.log('allChats'+ chats);
+
+                
+                allChats.innerHTML = chats;
+            });
+        });
+        
+    </script>
+</body>
+</html>
