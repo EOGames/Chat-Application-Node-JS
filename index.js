@@ -34,16 +34,16 @@ io.on('connection',(socket)=>
         chatCount = chats.length-1;
         chats[chatCount+1] = msg;
         //console.log('chat ' + msg);
-
+        liveChat = '';
         for (let i=0; i < chats.length;i++)
         {
-            // if (liveChat ='')
-            // {
-            //     liveChat = chats[i];
-            // }else
-            // {
+            if (liveChat ==='')
+            {
+                liveChat = chats[i];
+            }else
+            {
                 liveChat = liveChat + '\n' + chats[i];
-            //}
+            }
         }
         console.log(liveChat);
         io.emit('liveChat',liveChat);
